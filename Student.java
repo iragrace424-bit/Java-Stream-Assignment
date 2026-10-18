@@ -1,41 +1,73 @@
+
+import java.util.List;
 import java.util.Map;
+
 public class Student {
-   private String name;
-   private int id;
-   private Map<String, Double> courses;
 
-   public Student(String name, int id, Map<String, Double> courses) {
-      this.name = name;
-      this.id =id;
-      this.courses = courses;
-   
-   }
-   public String getName() {
-      return name;
-   }
+    private int id;
+    private String studentName;
+    private int age;
+    private Map<String, Double> courses;
+    private List<String> skills;
 
-   public void setName(String name) {
-      this.name = name;
-   }
-   public int getId() {
-      return id;
-   }
-   public void setId(int id) {
-      this.id = id;
-   }
-   public Map<String, Double> getCourses() {
-      return courses;
-   }
-   public void setCourses(Map<String, Double> courses) {
-      this.courses = courses;
-   }
-   @Override
-   public String toString() {
-      return "Student{" +
-              "name='" + name + '\'' +
-              ", id=" + id +
-              ", courses=" + courses +
-              '}';
-   }
-   
+public Student(int id, String studentName, int age,
+               Map<String, Double> courses, List<String> skills) {
+    this.id = id;
+    this.studentName = studentName;
+    this.age = age;
+    this.courses = courses;
+    this.skills = skills;
+}
+
+public int getId() {
+    return id;
+}
+
+public void setId(int id) {
+    this.id = id;
+}
+
+public String getStudentName() {
+    return studentName;
+}
+
+public void setStudentName(String studentName) {
+    this.studentName = studentName;
+}
+
+public int getAge() {
+    return age;
+}
+
+public void setAge(int age) {
+    this.age = age;
+}
+
+public Map<String, Double> getCourses() {
+    return courses;
+}
+
+public void setCourses(Map<String, Double> courses) {
+    this.courses = courses;
+}
+
+public List<String> getSkills() {
+    return skills;
+}
+
+public void setSkills(List<String> skills) {
+    this.skills = skills;
+}
+
+@Override
+public String toString() {
+    return "Student{" +
+            "id=" + id +
+            ", studentName='" + studentName + '\'' +
+            ", age=" + age +
+            ", courses=" + courses +
+            ", skills=" + skills +
+            '}';
+}
+
 }

@@ -1,59 +1,90 @@
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        Student s1 = new Student("Grace", 1,
-Map.of("Mathematics", 90.0, "English", 70.0));
-Student s2 = new Student("Kelly", 2,
-Map.of("Mathematics", 80.0, "Biology", 85.0));
-Student s3 = new Student("Anne", 3,
-Map.of("English", 95.0, "Biology", 75.0));
 
+        Scanner scanner = new Scanner(System.in);
+        StudentManager manager = new StudentManager();
 
+        int choice;
 
-List<Student> students = List.of(s1, s2, s3);
-for (Student student : students) {
-    double average = student.getCourses().values()
-    .stream()
-    .mapToDouble(Double::doubleValue)
-    .average()
-    .orElse(0.0);
-    System.out.println(student.getName() + "'s average: " + average);
+        do {
+            System.out.println("\n===== STUDENT MANAGEMENT SYSTEM =====");
+            System.out.println("1. Register Student");
+            System.out.println("2. Display All Students");
+            System.out.println("0. Exit");
+
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.print("Enter student ID: ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+
+                if (manager.studentExists(id)) {
+                    System.out.println(
+                            "A student with this ID already exists.");
+                    continue;
+                }
+
+                System.out.print("Enter student name: ");
+                String name = scanner.nextLine();
+
+                System.out.print("Enter student age: ");
+                int age = scanner.nextInt();
+                scanner.nextLine();
+
+                Map<String, Double> courses = new HashMap<>();
+
+                System.out.print("How many courses? ");
+                int numberOfCourses = scanner.nextInt();
+                scanner.nextLine();
+
+                for (int i = 0; i < numberOfCourses; i++) {
+                    System.out.print("Enter course name: ");
+                    String course = scanner.nextLine();
+
+                    System.out.print("Enter mark: ");
+                    double mark = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    courses.put(course, mark);
+                }
+
+                List<String> skills = new ArrayList<>();
+
+                System.out.print("How many skills? ");
+                int numberOfSkills = scanner.nextInt();
+                scanner.nextLine();
+
+                for (int i = 0; i < numberOfSkills; i++) {
+                    System.out.print("Enter skill: ");
+                    String skill = scanner.nextLine();
+                    skills.add(skill);
+                }
+
+                Student student = new Student(
+                        id, name, age, courses, skills);
+
+                manager.addStudent(student);
+                System.out.println(
+                        "Student registered successfully!");
+
+            } else if (choice == 2) {
+                manager.displayAllStudents();
+
+            } else if (choice == 0) {
+                System.out.println("Goodbye!");
+
+            } else {
+                System.out.println("Invalid choice. Try again.");
+            }
+
+        } while (choice != 0);
+
+        scanner.close();
+    }
 }
-
-Map<String, List<Student>> studentsByCourse =
-students.stream()
-.flatMap(student -> student.getCourses()
-.keySet()
-.stream()
-.map(course -> Map.entry(course, student)))
-.collect(Collectors.groupingBy(
-   entry -> entry.getKey(),
-    Collectors.mapping(
-        entry -> entry.getValue(),
-        Collectors.toList()
-    )
-));
-studentsByCourse.forEach((course, studentList) -> {
-    System.out.println(course + ":");
-
-    studentList.forEach(student ->
-            System.out.println("  " + student.getName()));
-});
-studentsByCourse.forEach((course, studentList) -> {
-    Student highest = studentList.stream()
-            .max((a, b) -> Double.compare(
-                    a.getCourses().get(course),
-                    b.getCourses().get(course)))
-            .orElse(null);
-
-    if (highest != null) {
-        System.out.println(course + ": " + highest.getName()
-                + " with " + highest.getCourses().get(course) + " marks");
-    }
-});
-    }
-    
-} 
-    
